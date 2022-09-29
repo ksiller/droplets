@@ -1,8 +1,12 @@
 # @ File[] (label="Input directory", style="both") inputs
 # @ File (label="Output directory", style="directory") outputdir 
 # @ Integer (label="Channel with droplets", min=1, max=7, value=1) ch_no
-# @ Double (label="Min droplet area", min=0.001, stepSize=0.01, value=0.1) min_area
-# @ Double (label="Max droplet area", min=0.001, stepSize=0.01, value=10.0) max_area
+# @ String (label="Cell thresholding", choices={"Default", "Huang", "Moments", "Otsu", "Yen"}, style="listBox") cell_th_algo
+# @ Double (label="Min cell area", min=0.001, stepSize=0.01, value=0.1) min_cell_area
+# @ Double (label="Max cell area", min=0.001, stepSize=0.01, value=10.0) max_cell_area
+# @ String (label="Droplet thresholding", choices={"Default", "Huang", "Moments", "Otsu", "Yen"}, style="listBox") droplet_th_algo
+# @ Double (label="Min droplet area", min=0.001, stepSize=0.01, value=0.1) min_droplet_area
+# @ Double (label="Max droplet area", min=0.001, stepSize=0.01, value=10.0) max_droplet_area
 # @ Integer (label="Drop first n slices", min=0, value=0) drop_first
 # @ Integer (label="Drop last n slices", min=0, value=0) drop_last
 # @ Integer (label="Channel with droplets ", min=1, max=7, value=1) ch_no
@@ -87,7 +91,7 @@ for item in img_files:
         img = open_image(item)
         dims = img.getDimensions()
         print 'Processing', item, "-", dims[2],"channel[s],", dims[3], "slice[s],", dims[4], "frame[s]"
-        mask, imp = process(img, min_area, max_area, ch_no=ch_no, zend=19, tend=1, drop_first=drop_first, drop_last=drop_last)
+        mask, imp = process(img, min_droplet_area, max_droplet_area, algo=droplet_th_algo, ch_no=ch_no, zend=19, tend=1, drop_first=drop_first, drop_last=drop_last)
         if show_images:
             img.show()
             imp.show()
